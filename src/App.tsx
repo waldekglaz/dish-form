@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FC } from "react";
 
-function App() {
+import "./App.css";
+
+const App: FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main>
+      <form>
+        <div className="form-field">
+          <label htmlFor="name">Dish name:</label>
+          <input type="text" name="name" id="name" />
+        </div>
+        <div className="form-field">
+          <label htmlFor="preparation_time">Preparation time:</label>
+          <input
+            type="time"
+            name="preparation_time"
+            id="preparation_time"
+            step="2"
+          />
+        </div>
+        <div className="form-field">
+          <label htmlFor="type">Dish type:</label>
+
+          <select name="type" id="dish-type">
+            <option value="pizza">Pizza</option>
+            <option value="soup">Soup</option>
+            <option value="sandwich">Sandwich</option>
+          </select>
+        </div>
+      </form>
+    </main>
   );
-}
+};
 
 export default App;
