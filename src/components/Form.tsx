@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
+import axios from "axios";
 
 const Form = () => {
   const form = useForm({
@@ -32,7 +33,19 @@ const Form = () => {
     }
   }, [register, unregister, watchType]);
   const onSubmit = (data: any) => {
-    console.log("submitted", data);
+    const url =
+      "https://umzzcc503l.execute-api.us-west-2.amazonaws.com/dishes/";
+
+    axios
+      .post(url, {
+        ...data,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   return (
@@ -50,7 +63,7 @@ const Form = () => {
         />
         <label htmlFor="type">
           Dish type:
-          <select {...register("type")} required>
+          <select {...register("type", { required: true })}>
             <option value="" disabled>
               Choose here
             </option>
@@ -92,7 +105,11 @@ const Form = () => {
                 min="1"
                 max="10"
                 required
-                {...register("spicyness_scale")}
+                {...register("spicyness_scale", {
+                  min: 1,
+                  max: 10,
+                  required: true,
+                })}
               />
             </label>
           </>
