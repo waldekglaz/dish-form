@@ -28,15 +28,7 @@ const Form = () => {
     },
   };
   const form = useForm<FormValues>(defaultValues);
-  const {
-    register,
-    control,
-    handleSubmit,
-    watch,
-    unregister,
-    reset,
-    formState,
-  } = form;
+  const { register, handleSubmit, watch, unregister, reset, formState } = form;
   const watchType = watch("type");
   const { errors } = formState;
   useEffect(() => {
@@ -66,11 +58,11 @@ const Form = () => {
       .then(function (response) {
         setIsSending(false);
         setSuccess(true);
+        console.log({ response });
       })
       .catch(function (error) {
         setIsSending(false);
         setError(true);
-        console.log(error);
       });
 
     reset();
@@ -80,33 +72,53 @@ const Form = () => {
     <>
       {!isSending && !error && !success && (
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          <label htmlFor="name">
-            Dish name:
+          <div className="mb-6">
+            <label
+              htmlFor="name"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Dish Name
+            </label>
             <input
               type="text"
-              id="name"
+              id="dish-name"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder=" "
               {...register("name", { required: "Dish name is required" })}
             />
-          </label>
 
-          <p>{errors.name?.message}</p>
-          <label htmlFor="preparation_time">
-            Preparation time:
+            <p>{errors.name?.message}</p>
+          </div>
+          <div className="mb-6">
+            <label
+              htmlFor="preparation_time"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Preparation Time
+            </label>
             <input
               type="time"
               id="preparation-time"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               step="2"
               {...register("preparation_time", {
                 required: "Preparation time is required",
               })}
             />
-          </label>
 
-          <p>{errors.preparation_time?.message}</p>
-          <label htmlFor="type">
-            Dish type:
+            <p className="text-xs text-red-600">
+              {errors.preparation_time?.message}
+            </p>
+          </div>
+          <div className="mb-6">
+            <label
+              htmlFor="type"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Dish type:
+            </label>
             <select
-              required
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               {...register("type", { required: "Dish type is required" })}
             >
               <option value="" disabled>
@@ -116,69 +128,96 @@ const Form = () => {
               <option value="soup">Soup</option>
               <option value="sandwich">Sandwich</option>
             </select>
+
             <p>{errors.type?.message}</p>
-          </label>
+          </div>
+
           {watchType === "pizza" && (
             <>
-              <label htmlFor="no_of_slices">
-                Number of slices:
+              <div className="mb-6">
+                <label
+                  htmlFor="no_of_slices"
+                  className="block mb-2 text-sm font-medium text-gray-900"
+                >
+                  Number of slices:
+                </label>
                 <input
                   type="number"
                   id="number-of-slices"
-                  required
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   {...register("no_of_slices", {
                     min: 1,
                     required: "Number of slices is required",
                   })}
                 />
                 <p>{errors.no_of_slices?.message}</p>
-              </label>
-              <label htmlFor="diameter">
-                Diameter:
+              </div>
+              <div className="mb-6">
+                <label
+                  htmlFor="diameter"
+                  className="block mb-2 text-sm font-medium text-gray-900"
+                >
+                  Diameter:
+                </label>
                 <input
                   type="number"
                   id="diameter"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   {...register("diameter", {
                     required: "Diameter is required",
                   })}
                   step="0.01"
                 />
                 <p>{errors.diameter?.message}</p>
-              </label>
+              </div>
             </>
           )}
           {watchType === "soup" && (
-            <>
-              <label htmlFor="spiciness_scale">
+            <div className="mb-6">
+              <label
+                htmlFor="spiciness_scale"
+                className="block mb-2 text-sm font-medium text-gray-900"
+              >
                 Spicyness scale (1-10):
-                <input
-                  type="number"
-                  id="spicyness-scale"
-                  {...register("spiciness_scale", {
-                    min: 1,
-                    max: 10,
-                    required: "Spicyness scale is required",
-                  })}
-                />
               </label>
-            </>
+              <input
+                type="number"
+                id="spicyness-scale"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                {...register("spiciness_scale", {
+                  min: 1,
+                  max: 10,
+                  required: "Spicyness scale is required",
+                })}
+              />
+              <p>{errors.spiciness_scale?.message}</p>
+            </div>
           )}
           {watchType === "sandwich" && (
-            <>
-              <label htmlFor="slices_of_bread">
+            <div className="mb-6">
+              <label
+                htmlFor="slices_of_bread"
+                className="block mb-2 text-sm font-medium text-gray-900"
+              >
                 Slices of bread:
-                <input
-                  type="number"
-                  id="slices_of_bread"
-                  {...register("slices_of_bread", {
-                    required: "this field is required",
-                  })}
-                />
               </label>
+              <input
+                type="number"
+                id="slices-of-bread"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                {...register("slices_of_bread", {
+                  required: "this field is required",
+                })}
+              />
               <p>{errors.slices_of_bread?.message};</p>
-            </>
+            </div>
           )}
-          <button type="submit">Add</button>
+          <button
+            type="submit"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600"
+          >
+            Add
+          </button>
         </form>
       )}
       {isSending && <div>Sending data</div>}
