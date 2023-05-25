@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "./ErrorMessage";
 import Spinner from "./Spinner";
+import Button from "./Button";
 import axios from "axios";
 
 type FormValues = {
@@ -18,6 +19,7 @@ const Form = () => {
   const [isSending, setIsSending] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [responseMsg, setResponseMsg] = useState(Object);
   const defaultValues = {
     defaultValues: {
       name: "",
@@ -60,7 +62,7 @@ const Form = () => {
       .then(function (response) {
         setIsSending(false);
         setSuccess(true);
-        console.log({ response });
+        setResponseMsg(response.data);
       })
       .catch(function (error) {
         setIsSending(false);
@@ -73,7 +75,11 @@ const Form = () => {
   return (
     <>
       {!isSending && !error && !success && (
-        <form onSubmit={handleSubmit(onSubmit)} noValidate className="relative">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+          className="max-w-xs mx-auto"
+        >
           <div className="mb-6">
             <label
               htmlFor="name"
@@ -106,7 +112,7 @@ const Form = () => {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               step="2"
               {...register("preparation_time", {
-                required: "Preparation time is required",
+                required: "Preparation time is required (hh:mm:ss)",
               })}
             />
 
@@ -199,7 +205,8 @@ const Form = () => {
                 {...register("spiciness_scale", {
                   min: 1,
                   max: 10,
-                  required: "Spicyness scale is required",
+                  required:
+                    "Spicyness scale is required (1 - super mild, 10 - super hot hot)",
                 })}
               />
               {errors.spiciness_scale?.message && (
@@ -220,7 +227,7 @@ const Form = () => {
                 id="slices-of-bread"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 {...register("slices_of_bread", {
-                  required: "this field is required",
+                  required: "We need to know how many bread slices we need",
                 })}
               />
               {errors.slices_of_bread?.message && (
@@ -230,9 +237,9 @@ const Form = () => {
           )}
           <button
             type="submit"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
           >
-            Add
+            Add Dish
           </button>
         </form>
       )}
@@ -242,14 +249,21 @@ const Form = () => {
           Opss Something went wrong! Please try again or contact your
           administrator.
           <br />
-          <a href="/">Try again</a>
           <button onClick={() => setError(false)}>reset</button>
         </div>
       )}
       {success && (
-        <div>
-          Data send succefully. <br />
-          <button onClick={() => setSuccess(false)}>new</button>
+        <div className="flex flex-col justify-center items-center text-center">
+          <p className="text-green-500 text-xl text-center my-20">
+            Your dish has been sucessfully added.
+          </p>
+          <Button
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full w-auto px-5 py-2.5 text-center md:w-44"
+            inputType="button"
+            text="Add another dish"
+            onClick={() => setSuccess(false)}
+          />
+          {/* <button onClick={() => setSuccess(false)}>Add another dish</button> */}
         </div>
       )}
     </>
