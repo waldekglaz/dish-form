@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import ErrorMessage from "./ErrorMessage";
 import axios from "axios";
 
 type FormValues = {
@@ -87,7 +88,9 @@ const Form = () => {
               {...register("name", { required: "Dish name is required" })}
             />
 
-            <p>{errors.name?.message}</p>
+            {errors.name?.message && (
+              <ErrorMessage message={errors.name?.message} />
+            )}
           </div>
           <div className="mb-6">
             <label
@@ -106,9 +109,9 @@ const Form = () => {
               })}
             />
 
-            <p className="text-xs text-red-600">
-              {errors.preparation_time?.message}
-            </p>
+            {errors.preparation_time?.message && (
+              <ErrorMessage message={errors.preparation_time?.message} />
+            )}
           </div>
           <div className="mb-6">
             <label
@@ -129,7 +132,11 @@ const Form = () => {
               <option value="sandwich">Sandwich</option>
             </select>
 
-            <p>{errors.type?.message}</p>
+            <p>
+              {errors.type?.message && (
+                <ErrorMessage message={errors.type?.message} />
+              )}
+            </p>
           </div>
 
           {watchType === "pizza" && (
@@ -150,7 +157,10 @@ const Form = () => {
                     required: "Number of slices is required",
                   })}
                 />
-                <p>{errors.no_of_slices?.message}</p>
+
+                {errors.no_of_slices?.message && (
+                  <ErrorMessage message={errors.no_of_slices?.message} />
+                )}
               </div>
               <div className="mb-6">
                 <label
@@ -168,7 +178,11 @@ const Form = () => {
                   })}
                   step="0.01"
                 />
-                <p>{errors.diameter?.message}</p>
+                <p>
+                  {errors.diameter?.message && (
+                    <ErrorMessage message={errors.diameter?.message} />
+                  )}
+                </p>
               </div>
             </>
           )}
@@ -190,7 +204,9 @@ const Form = () => {
                   required: "Spicyness scale is required",
                 })}
               />
-              <p>{errors.spiciness_scale?.message}</p>
+              {errors.spiciness_scale?.message && (
+                <ErrorMessage message={errors.spiciness_scale?.message} />
+              )}
             </div>
           )}
           {watchType === "sandwich" && (
@@ -209,7 +225,9 @@ const Form = () => {
                   required: "this field is required",
                 })}
               />
-              <p>{errors.slices_of_bread?.message};</p>
+              {errors.slices_of_bread?.message && (
+                <ErrorMessage message={errors.slices_of_bread?.message} />
+              )}
             </div>
           )}
           <button
