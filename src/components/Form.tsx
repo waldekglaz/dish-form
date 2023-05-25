@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
 import axios from "axios";
 
 type FormValues = {
@@ -81,22 +80,28 @@ const Form = () => {
     <>
       {!isSending && !error && !success && (
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          <label htmlFor="name">Dish name:</label>
-          <input
-            type="text"
-            id="name"
-            {...register("name", { required: "Dish name is required" })}
-          />
+          <label htmlFor="name">
+            Dish name:
+            <input
+              type="text"
+              id="name"
+              {...register("name", { required: "Dish name is required" })}
+            />
+          </label>
+
           <p>{errors.name?.message}</p>
-          <label htmlFor="preparation_time">Preparation time:</label>
-          <input
-            type="time"
-            id="preparation-time"
-            step="2"
-            {...register("preparation_time", {
-              required: "Preparation time is required",
-            })}
-          />
+          <label htmlFor="preparation_time">
+            Preparation time:
+            <input
+              type="time"
+              id="preparation-time"
+              step="2"
+              {...register("preparation_time", {
+                required: "Preparation time is required",
+              })}
+            />
+          </label>
+
           <p>{errors.preparation_time?.message}</p>
           <label htmlFor="type">
             Dish type:
@@ -159,17 +164,19 @@ const Form = () => {
             </>
           )}
           {watchType === "sandwich" && (
-            <label htmlFor="slices_of_bread">
-              Slices of bread:
-              <input
-                type="number"
-                id="slices_of_bread"
-                {...register("slices_of_bread", {
-                  required: "this field is required",
-                })}
-              />
+            <>
+              <label htmlFor="slices_of_bread">
+                Slices of bread:
+                <input
+                  type="number"
+                  id="slices_of_bread"
+                  {...register("slices_of_bread", {
+                    required: "this field is required",
+                  })}
+                />
+              </label>
               <p>{errors.slices_of_bread?.message};</p>
-            </label>
+            </>
           )}
           <button type="submit">Add</button>
         </form>
@@ -181,14 +188,16 @@ const Form = () => {
           administrator.
           <br />
           <a href="/">Try again</a>
+          <button onClick={() => setError(false)}>reset</button>
         </div>
       )}
       {success && (
         <div>
-          Data send succefully. <br /> <a href="/">Add new data</a>
+          Data send succefully. <br />
+          {/* <a href="/">Add new data</a> */}
+          <button onClick={() => setSuccess(false)}>new</button>
         </div>
       )}
-      <DevTool control={control} />
     </>
   );
 };
