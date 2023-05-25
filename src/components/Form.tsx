@@ -245,11 +245,18 @@ const Form = () => {
       )}
       {isSending && <Spinner />}
       {error && (
-        <div>
-          Opss Something went wrong! Please try again or contact your
-          administrator.
-          <br />
-          <button onClick={() => setError(false)}>reset</button>
+        <div className="flex flex-col justify-center items-center text-center">
+          <p className="text-red-600 text-xl text-center my-20">
+            Opss Something went wrong! Please try again or contact your
+            administrator.
+          </p>
+          <Button
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full w-auto px-5 py-2.5 text-center md:w-44"
+            inputType="button"
+            text="Try Again"
+            onClick={() => setError(false)}
+          />
+          {/* <button onClick={}>reset</button> */}
         </div>
       )}
       {success && (
@@ -263,7 +270,6 @@ const Form = () => {
             text="Add another dish"
             onClick={() => setSuccess(false)}
           />
-          {/* <button onClick={() => setSuccess(false)}>Add another dish</button> */}
         </div>
       )}
     </>
