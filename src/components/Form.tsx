@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "./ErrorMessage";
+import Spinner from "./Spinner";
 import axios from "axios";
 
 type FormValues = {
@@ -72,7 +73,7 @@ const Form = () => {
   return (
     <>
       {!isSending && !error && !success && (
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate className="relative">
           <div className="mb-6">
             <label
               htmlFor="name"
@@ -132,11 +133,9 @@ const Form = () => {
               <option value="sandwich">Sandwich</option>
             </select>
 
-            <p>
-              {errors.type?.message && (
-                <ErrorMessage message={errors.type?.message} />
-              )}
-            </p>
+            {errors.type?.message && (
+              <ErrorMessage message={errors.type?.message} />
+            )}
           </div>
 
           {watchType === "pizza" && (
@@ -178,11 +177,10 @@ const Form = () => {
                   })}
                   step="0.01"
                 />
-                <p>
-                  {errors.diameter?.message && (
-                    <ErrorMessage message={errors.diameter?.message} />
-                  )}
-                </p>
+
+                {errors.diameter?.message && (
+                  <ErrorMessage message={errors.diameter?.message} />
+                )}
               </div>
             </>
           )}
@@ -238,7 +236,7 @@ const Form = () => {
           </button>
         </form>
       )}
-      {isSending && <div>Sending data</div>}
+      {isSending && <Spinner />}
       {error && (
         <div>
           Opss Something went wrong! Please try again or contact your
@@ -251,7 +249,6 @@ const Form = () => {
       {success && (
         <div>
           Data send succefully. <br />
-          {/* <a href="/">Add new data</a> */}
           <button onClick={() => setSuccess(false)}>new</button>
         </div>
       )}
