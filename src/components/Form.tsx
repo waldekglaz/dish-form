@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+
+import FormField from "./FormField";
 import ErrorMessage from "./ErrorMessage";
 import Spinner from "./Spinner";
 import Button from "./Button";
@@ -63,7 +65,7 @@ const Form = () => {
         setIsSending(false);
         setSuccess(true);
         setResponseMsg(response.data);
-        console.log(response.data);
+        console.log("Response :", response);
       })
       .catch(function (error) {
         setIsSending(false);
@@ -81,7 +83,7 @@ const Form = () => {
           noValidate
           className="max-w-xs mx-auto"
         >
-          <div className="mb-6">
+          <FormField>
             <label
               htmlFor="name"
               className="block mb-2 text-sm font-medium text-gray-900"
@@ -99,8 +101,8 @@ const Form = () => {
             {errors.name?.message && (
               <ErrorMessage message={errors.name?.message} />
             )}
-          </div>
-          <div className="mb-6">
+          </FormField>
+          <FormField>
             <label
               htmlFor="preparation_time"
               className="block mb-2 text-sm font-medium text-gray-900"
@@ -120,8 +122,8 @@ const Form = () => {
             {errors.preparation_time?.message && (
               <ErrorMessage message={errors.preparation_time?.message} />
             )}
-          </div>
-          <div className="mb-6">
+          </FormField>
+          <FormField>
             <label
               htmlFor="type"
               className="block mb-2 text-sm font-medium text-gray-900"
@@ -143,11 +145,11 @@ const Form = () => {
             {errors.type?.message && (
               <ErrorMessage message={errors.type?.message} />
             )}
-          </div>
+          </FormField>
 
           {watchType === "pizza" && (
             <>
-              <div className="mb-6">
+              <FormField>
                 <label
                   htmlFor="no_of_slices"
                   className="block mb-2 text-sm font-medium text-gray-900"
@@ -167,8 +169,8 @@ const Form = () => {
                 {errors.no_of_slices?.message && (
                   <ErrorMessage message={errors.no_of_slices?.message} />
                 )}
-              </div>
-              <div className="mb-6">
+              </FormField>
+              <FormField>
                 <label
                   htmlFor="diameter"
                   className="block mb-2 text-sm font-medium text-gray-900"
@@ -188,11 +190,11 @@ const Form = () => {
                 {errors.diameter?.message && (
                   <ErrorMessage message={errors.diameter?.message} />
                 )}
-              </div>
+              </FormField>
             </>
           )}
           {watchType === "soup" && (
-            <div className="mb-6">
+            <FormField>
               <label
                 htmlFor="spiciness_scale"
                 className="block mb-2 text-sm font-medium text-gray-900"
@@ -217,10 +219,10 @@ const Form = () => {
               {errors.spiciness_scale?.message && (
                 <ErrorMessage message={errors.spiciness_scale?.message} />
               )}
-            </div>
+            </FormField>
           )}
           {watchType === "sandwich" && (
-            <div className="mb-6">
+            <FormField>
               <label
                 htmlFor="slices_of_bread"
                 className="block mb-2 text-sm font-medium text-gray-900"
@@ -243,7 +245,7 @@ const Form = () => {
               {errors.slices_of_bread?.message && (
                 <ErrorMessage message={errors.slices_of_bread?.message} />
               )}
-            </div>
+            </FormField>
           )}
           <button
             type="submit"

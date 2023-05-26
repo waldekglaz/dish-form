@@ -1,12 +1,7 @@
-import React, {
-  HTMLInputTypeAttribute,
-  FC,
-  MouseEventHandler,
-  DetailsHTMLAttributes,
-} from "react";
+import { FC, MouseEventHandler } from "react";
 interface BtnProps {
   text: string;
-  inputType: any;
+  inputType: "button";
   className: string;
   onClick: MouseEventHandler;
 }
