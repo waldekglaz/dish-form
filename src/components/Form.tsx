@@ -213,8 +213,6 @@ const Form = () => {
                 id="spicyness-scale"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 {...register("spiciness_scale", {
-                  // min: 1,
-                  // max: 10,
                   required:
                     "Spicyness scale is required (1 - super mild, 10 - super hot hot)",
                   validate: (fieldValue) => {
@@ -244,6 +242,11 @@ const Form = () => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 {...register("slices_of_bread", {
                   required: "We need to know how many bread slices we need",
+                  validate: (fieldValue) => {
+                    return (
+                      Number(fieldValue) > 0 || "You need at least one slice"
+                    );
+                  },
                 })}
               />
               {errors.slices_of_bread?.message && (
@@ -273,7 +276,6 @@ const Form = () => {
             text="Try Again"
             onClick={() => setError(false)}
           />
-          {/* <button onClick={}>reset</button> */}
         </div>
       )}
       {success && (
