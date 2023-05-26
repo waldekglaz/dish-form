@@ -63,6 +63,7 @@ const Form = () => {
         setIsSending(false);
         setSuccess(true);
         setResponseMsg(response.data);
+        console.log(response.data);
       })
       .catch(function (error) {
         setIsSending(false);
@@ -264,6 +265,10 @@ const Form = () => {
           <p className="text-green-500 text-xl text-center my-20">
             Your dish has been sucessfully added.
           </p>
+          <pre className="text-left mb-16">
+            <code>{JSON.stringify(responseMsg, null, 2)}</code>
+          </pre>
+
           <Button
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full w-auto px-5 py-2.5 text-center md:w-44"
             inputType="button"
