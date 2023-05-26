@@ -4,6 +4,7 @@ import ErrorMessage from "./ErrorMessage";
 import Spinner from "./Spinner";
 import Button from "./Button";
 import axios from "axios";
+import { DevTool } from "@hookform/devtools";
 
 type FormValues = {
   name: string;
@@ -32,9 +33,17 @@ const Form = () => {
     },
   };
   const form = useForm<FormValues>(defaultValues);
-  const { register, handleSubmit, watch, unregister, reset, formState } = form;
+  const {
+    register,
+    handleSubmit,
+    watch,
+    unregister,
+    reset,
+    formState,
+    control,
+  } = form;
   const watchType = watch("type");
-  const { errors } = formState;
+  const { errors, isSubmitting } = formState;
   useEffect(() => {
     if (watchType === "pizza") {
       register("no_of_slices");
@@ -204,10 +213,16 @@ const Form = () => {
                 id="spicyness-scale"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 {...register("spiciness_scale", {
-                  min: 1,
-                  max: 10,
+                  // min: 1,
+                  // max: 10,
                   required:
                     "Spicyness scale is required (1 - super mild, 10 - super hot hot)",
+                  validate: (fieldValue) => {
+                    return (
+                      (Number(fieldValue) > 0 && Number(fieldValue) <= 10) ||
+                      "Please enter number between 1 and 10"
+                    );
+                  },
                 })}
               />
               {errors.spiciness_scale?.message && (
@@ -244,6 +259,7 @@ const Form = () => {
           </button>
         </form>
       )}
+      <DevTool control={control} />
       {isSending && <Spinner />}
       {error && (
         <div className="flex flex-col justify-center items-center text-center">
