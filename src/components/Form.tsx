@@ -4,7 +4,6 @@ import ErrorMessage from "./ErrorMessage";
 import Spinner from "./Spinner";
 import Button from "./Button";
 import axios from "axios";
-import { DevTool } from "@hookform/devtools";
 
 type FormValues = {
   name: string;
@@ -33,17 +32,9 @@ const Form = () => {
     },
   };
   const form = useForm<FormValues>(defaultValues);
-  const {
-    register,
-    handleSubmit,
-    watch,
-    unregister,
-    reset,
-    formState,
-    control,
-  } = form;
+  const { register, handleSubmit, watch, unregister, reset, formState } = form;
   const watchType = watch("type");
-  const { errors, isSubmitting } = formState;
+  const { errors } = formState;
   useEffect(() => {
     if (watchType === "pizza") {
       register("no_of_slices");
@@ -262,7 +253,7 @@ const Form = () => {
           </button>
         </form>
       )}
-      <DevTool control={control} />
+
       {isSending && <Spinner />}
       {error && (
         <div className="flex flex-col justify-center items-center text-center">
