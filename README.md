@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### Screenshot
+
+![](./dish-delight-ss.png)
+
 ## Prerequisites
 
 Before you begin, ensure that you have the following prerequisites installed on your machine:
