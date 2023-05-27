@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-
 import FormField from "./FormField";
 import InputField from "./InputField";
 import ErrorMessage from "./ErrorMessage";
+import Message from "./Message";
 import Spinner from "./Spinner";
 import Button from "./Button";
 import axios from "axios";
@@ -56,7 +56,7 @@ const Form = () => {
   const onSubmit = (data: FormValues) => {
     setIsSending(true);
     const url =
-      "https://umzzcc503l.execute-api.us-west-2.amazonaws.com/dishes/";
+      "https://umzzcc503l.execute-api.us-west-2.amazonaws.com/dishes/3";
 
     axios
       .post(url, {
@@ -220,33 +220,28 @@ const Form = () => {
 
       {isSending && <Spinner />}
       {error && (
-        <div className="flex flex-col justify-center items-center text-center max-w-xs mx-auto p-4">
-          <p className="text-red-600 text-xl text-center my-20">
-            Opss Something went wrong! Please try again or contact your
-            administrator.
-          </p>
+        <Message
+          text="Opss Something went wrong! Please try again or contact your administrator."
+          success={false}
+        >
           <Button
             inputType="button"
             text="Try Again"
             onClick={() => setError(false)}
           />
-        </div>
+        </Message>
       )}
       {success && (
-        <div className="flex flex-col justify-center items-center text-center max-w-xs mx-auto p-4">
-          <p className="text-green-500 text-xl text-center my-20">
-            Your dish has been sucessfully added.
-          </p>
+        <Message text="Your dish has been sucessfully added." success={true}>
           <pre className="text-left mb-16">
             <code>{JSON.stringify(responseMsg, null, 2)}</code>
           </pre>
-
           <Button
             inputType="button"
             text="Add another dish"
             onClick={() => setSuccess(false)}
           />
-        </div>
+        </Message>
       )}
     </>
   );
