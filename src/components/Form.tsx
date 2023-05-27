@@ -56,7 +56,7 @@ const Form = () => {
   const onSubmit = (data: FormValues) => {
     setIsSending(true);
     const url =
-      "https://umzzcc503l.execute-api.us-west-2.amazonaws.com/dishes/3";
+      "https://umzzcc503l.execute-api.us-west-2.amazonaws.com/dishes/";
 
     axios
       .post(url, {
