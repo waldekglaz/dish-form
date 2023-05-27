@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import FormField from "./FormField";
+import InputField from "./InputField";
 import ErrorMessage from "./ErrorMessage";
 import Spinner from "./Spinner";
 import Button from "./Button";
@@ -84,6 +85,18 @@ const Form = () => {
           className="max-w-xs mx-auto"
         >
           <FormField>
+            <InputField
+              labelFor="name"
+              label="Dish Name"
+              register={register("name", { required: "Dish name is required" })}
+              type="text"
+            >
+              {errors.name?.message && (
+                <ErrorMessage message={errors.name?.message} />
+              )}
+            </InputField>
+          </FormField>
+          {/* <FormField>
             <label
               htmlFor="name"
               className="block mb-2 text-sm font-medium text-gray-900"
@@ -97,11 +110,7 @@ const Form = () => {
               placeholder=" "
               {...register("name", { required: "Dish name is required" })}
             />
-
-            {errors.name?.message && (
-              <ErrorMessage message={errors.name?.message} />
-            )}
-          </FormField>
+          </FormField> */}
           <FormField>
             <label
               htmlFor="preparation_time"
