@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import FormField from "./FormField";
+import InputField from "./InputField";
 import ErrorMessage from "./ErrorMessage";
 import Spinner from "./Spinner";
 import Button from "./Button";
@@ -81,47 +82,35 @@ const Form = () => {
         <form
           onSubmit={handleSubmit(onSubmit)}
           noValidate
-          className="max-w-xs mx-auto"
+          className="max-w-xs mx-auto p-4"
         >
           <FormField>
-            <label
+            <InputField
               htmlFor="name"
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Dish Name
-            </label>
-            <input
+              label="Dish Name"
+              register={register("name", { required: "Dish name is required" })}
               type="text"
-              id="dish-name"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              placeholder=" "
-              {...register("name", { required: "Dish name is required" })}
-            />
-
-            {errors.name?.message && (
-              <ErrorMessage message={errors.name?.message} />
-            )}
-          </FormField>
-          <FormField>
-            <label
-              htmlFor="preparation_time"
-              className="block mb-2 text-sm font-medium text-gray-900"
             >
-              Preparation Time
-            </label>
-            <input
+              {errors.name?.message && (
+                <ErrorMessage message={errors.name?.message} />
+              )}
+            </InputField>
+          </FormField>
+
+          <FormField>
+            <InputField
+              htmlFor="preparation_time"
+              label="Preparation Time"
               type="time"
-              id="preparation-time"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               step="2"
-              {...register("preparation_time", {
+              register={register("preparation_time", {
                 required: "Preparation time is required (hh:mm:ss)",
               })}
-            />
-
-            {errors.preparation_time?.message && (
-              <ErrorMessage message={errors.preparation_time?.message} />
-            )}
+            >
+              {errors.preparation_time?.message && (
+                <ErrorMessage message={errors.preparation_time?.message} />
+              )}
+            </InputField>
           </FormField>
           <FormField>
             <label
@@ -150,62 +139,44 @@ const Form = () => {
           {watchType === "pizza" && (
             <>
               <FormField>
-                <label
+                <InputField
                   htmlFor="no_of_slices"
-                  className="block mb-2 text-sm font-medium text-gray-900"
-                >
-                  Number of slices:
-                </label>
-                <input
+                  label="Number of slices:"
                   type="number"
-                  id="number-of-slices"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                  {...register("no_of_slices", {
+                  register={register("no_of_slices", {
                     min: 1,
                     required: "Number of slices is required",
                   })}
-                />
-
-                {errors.no_of_slices?.message && (
-                  <ErrorMessage message={errors.no_of_slices?.message} />
-                )}
+                >
+                  {errors.no_of_slices?.message && (
+                    <ErrorMessage message={errors.no_of_slices?.message} />
+                  )}
+                </InputField>
               </FormField>
               <FormField>
-                <label
+                <InputField
                   htmlFor="diameter"
-                  className="block mb-2 text-sm font-medium text-gray-900"
-                >
-                  Diameter:
-                </label>
-                <input
+                  label="Diameter:"
                   type="number"
-                  id="diameter"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                  {...register("diameter", {
+                  step="0.01"
+                  register={register("diameter", {
                     required: "Diameter is required",
                   })}
-                  step="0.01"
-                />
-
-                {errors.diameter?.message && (
-                  <ErrorMessage message={errors.diameter?.message} />
-                )}
+                >
+                  {errors.diameter?.message && (
+                    <ErrorMessage message={errors.diameter?.message} />
+                  )}
+                </InputField>
               </FormField>
             </>
           )}
           {watchType === "soup" && (
             <FormField>
-              <label
+              <InputField
                 htmlFor="spiciness_scale"
-                className="block mb-2 text-sm font-medium text-gray-900"
-              >
-                Spicyness scale (1-10):
-              </label>
-              <input
+                label="Spicyness scale (1-10):"
                 type="number"
-                id="spicyness-scale"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                {...register("spiciness_scale", {
+                register={register("spiciness_scale", {
                   required:
                     "Spicyness scale is required (1 - super mild, 10 - super hot hot)",
                   validate: (fieldValue) => {
@@ -215,25 +186,20 @@ const Form = () => {
                     );
                   },
                 })}
-              />
-              {errors.spiciness_scale?.message && (
-                <ErrorMessage message={errors.spiciness_scale?.message} />
-              )}
+              >
+                {errors.spiciness_scale?.message && (
+                  <ErrorMessage message={errors.spiciness_scale?.message} />
+                )}
+              </InputField>
             </FormField>
           )}
           {watchType === "sandwich" && (
             <FormField>
-              <label
+              <InputField
                 htmlFor="slices_of_bread"
-                className="block mb-2 text-sm font-medium text-gray-900"
-              >
-                Slices of bread:
-              </label>
-              <input
+                label="Slices of bread:"
                 type="number"
-                id="slices-of-bread"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                {...register("slices_of_bread", {
+                register={register("slices_of_bread", {
                   required: "We need to know how many bread slices we need",
                   validate: (fieldValue) => {
                     return (
@@ -241,10 +207,11 @@ const Form = () => {
                     );
                   },
                 })}
-              />
-              {errors.slices_of_bread?.message && (
-                <ErrorMessage message={errors.slices_of_bread?.message} />
-              )}
+              >
+                {errors.slices_of_bread?.message && (
+                  <ErrorMessage message={errors.slices_of_bread?.message} />
+                )}
+              </InputField>
             </FormField>
           )}
           <Button inputType="submit" text="Add Dish" />
@@ -253,7 +220,7 @@ const Form = () => {
 
       {isSending && <Spinner />}
       {error && (
-        <div className="flex flex-col justify-center items-center text-center">
+        <div className="flex flex-col justify-center items-center text-center max-w-xs mx-auto p-4">
           <p className="text-red-600 text-xl text-center my-20">
             Opss Something went wrong! Please try again or contact your
             administrator.
@@ -266,7 +233,7 @@ const Form = () => {
         </div>
       )}
       {success && (
-        <div className="flex flex-col justify-center items-center text-center">
+        <div className="flex flex-col justify-center items-center text-center max-w-xs mx-auto p-4">
           <p className="text-green-500 text-xl text-center my-20">
             Your dish has been sucessfully added.
           </p>
