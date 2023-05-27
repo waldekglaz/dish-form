@@ -2,7 +2,6 @@ import { FC, MouseEventHandler } from "react";
 interface BtnProps {
   text: string;
   inputType: "button" | "submit";
-
   onClick?: MouseEventHandler;
 }
 
