@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import FormField from "./FormField";
 import InputField from "./InputField";
+import InputSelect from "./InputSelect";
 import ErrorMessage from "./ErrorMessage";
 import Message from "./Message";
 import Spinner from "./Spinner";
@@ -16,8 +17,13 @@ type FormValues = {
   diameter: string;
   spiciness_scale: string;
   slices_of_bread: string;
+  attr: string;
 };
-
+const dishTypes = [
+  { type: "pizza", attr: ["no_of_slices", "diameter"] },
+  { type: "soup", attr: ["spiciness_scale"] },
+  { type: "sandwich", attr: ["slices_of_bread"] },
+];
 const Form = () => {
   const [isSending, setIsSending] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -36,27 +42,33 @@ const Form = () => {
   };
   const form = useForm<FormValues>(defaultValues);
   const { register, handleSubmit, watch, unregister, reset, formState } = form;
+  console.log(formState);
   const watchType = watch("type");
-  const { errors } = formState;
+  const { errors, isSubmitSuccessful } = formState;
   useEffect(() => {
     if (watchType === "pizza") {
       register("no_of_slices");
       register("diameter");
-    } else if (watchType === "soup") {
-      register("spiciness_scale");
-    } else if (watchType === "sandwich") {
-      register("slices_of_bread");
     } else {
       unregister("no_of_slices");
       unregister("diameter");
+    }
+    if (watchType === "soup") {
+      register("spiciness_scale");
+    } else {
       unregister("spiciness_scale");
+    }
+    if (watchType === "sandwich") {
+      register("slices_of_bread");
+    } else {
       unregister("slices_of_bread");
     }
   }, [register, unregister, watchType]);
   const onSubmit = (data: FormValues) => {
+    console.log(data);
     setIsSending(true);
     const url =
-      "https://umzzcc503l.execute-api.us-west-2.amazonaws.com/dishes/3";
+      "https://umzzcc503l.execute-api.us-west-2.amazonaws.com/dishes/";
 
     axios
       .post(url, {
@@ -66,7 +78,7 @@ const Form = () => {
         setIsSending(false);
         setSuccess(true);
         setResponseMsg(response.data);
-        console.log("Response :", response);
+        console.log("Response :", response.data);
       })
       .catch(function (error) {
         setIsSending(false);
@@ -113,24 +125,11 @@ const Form = () => {
             </InputField>
           </FormField>
           <FormField>
-            <label
+            <InputSelect
               htmlFor="type"
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Dish type:
-            </label>
-            <select
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              {...register("type", { required: "Dish type is required" })}
-            >
-              <option value="" disabled>
-                Choose here
-              </option>
-              <option value="pizza">Pizza</option>
-              <option value="soup">Soup</option>
-              <option value="sandwich">Sandwich</option>
-            </select>
-
+              label="Dish type:"
+              register={register("type", { required: "Dish type is required" })}
+            />
             {errors.type?.message && (
               <ErrorMessage message={errors.type?.message} />
             )}
