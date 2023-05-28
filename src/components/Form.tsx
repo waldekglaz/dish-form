@@ -24,26 +24,25 @@ const dishTypes = [
   { type: "soup", attr: ["spiciness_scale"] },
   { type: "sandwich", attr: ["slices_of_bread"] },
 ];
+const defaultValues = {
+  defaultValues: {
+    name: "",
+    type: "",
+    preparation_time: "",
+    no_of_slices: "",
+    diameter: "",
+    spiciness_scale: "",
+    slices_of_bread: "",
+  },
+};
 const Form = () => {
-  const [isSending, setIsSending] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [responseMsg, setResponseMsg] = useState(Object);
-  const defaultValues = {
-    defaultValues: {
-      name: "",
-      type: "",
-      preparation_time: "",
-      no_of_slices: "",
-      diameter: "",
-      spiciness_scale: "",
-      slices_of_bread: "",
-    },
-  };
   const form = useForm<FormValues>(defaultValues);
   const { register, handleSubmit, watch, unregister, reset, formState } = form;
   const watchType = watch("type");
-  const { errors, isSubmitSuccessful } = formState;
+  const { errors, isSubmitting } = formState;
   useEffect(() => {
     if (watchType === "pizza") {
       register("no_of_slices");
@@ -63,32 +62,27 @@ const Form = () => {
       unregister("slices_of_bread");
     }
   }, [register, unregister, watchType]);
-  const onSubmit = (data: FormValues) => {
-    setIsSending(true);
+  const onSubmit = async (data: FormValues) => {
     const url =
       "https://umzzcc503l.execute-api.us-west-2.amazonaws.com/dishes/";
-
-    axios
-      .post(url, {
+    try {
+      const response = await axios.post(url, {
         ...data,
-      })
-      .then(function (response) {
-        setIsSending(false);
-        setSuccess(true);
-        setResponseMsg(response.data);
-        console.log("Response :", response.data);
-      })
-      .catch(function (error) {
-        setIsSending(false);
-        setError(true);
       });
+
+      setSuccess(true);
+      setResponseMsg(response.data);
+      console.log("Response :", response.data);
+    } catch (error) {
+      setError(true);
+    }
 
     reset();
   };
 
   return (
     <>
-      {!isSending && !error && !success && (
+      {!isSubmitting && !error && !success && (
         <form
           onSubmit={handleSubmit(onSubmit)}
           noValidate
@@ -216,7 +210,8 @@ const Form = () => {
         </form>
       )}
 
-      {isSending && <Spinner />}
+      {isSubmitting && <Spinner />}
+      {/* {isSending && <Spinner />} */}
       {error && (
         <Message
           text="Opss Something went wrong! Please try again or contact your administrator."
