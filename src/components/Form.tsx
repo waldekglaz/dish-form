@@ -174,7 +174,7 @@ const Form = () => {
                 type="number"
                 register={register("spiciness_scale", {
                   required:
-                    "Spicyness scale is required (1 - super mild, 10 - super hot hot)",
+                    "Spicyness scale is required (1 - super mild, 10 - super hot)",
                   validate: (fieldValue) => {
                     return (
                       (Number(fieldValue) > 0 && Number(fieldValue) <= 10) ||

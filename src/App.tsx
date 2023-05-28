@@ -3,7 +3,7 @@ import Heading from "./components/Heading";
 
 const App = () => {
   return (
-    <main className="max-w-xs mx-auto p-4 shadow-md mt-16 rounded-lg">
+    <main className="pt-16">
       <Heading title="Dish Delight" />
       <Form />
     </main>
