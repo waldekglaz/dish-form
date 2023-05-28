@@ -36,13 +36,15 @@ const defaultValues = {
   },
 };
 const Form = () => {
+  const [isSending, setIsSending] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [responseMsg, setResponseMsg] = useState(Object);
+
   const form = useForm<FormValues>(defaultValues);
   const { register, handleSubmit, watch, unregister, reset, formState } = form;
   const watchType = watch("type");
-  const { errors, isSubmitting } = formState;
+  const { errors } = formState;
   useEffect(() => {
     if (watchType === "pizza") {
       register("no_of_slices");
@@ -63,17 +65,19 @@ const Form = () => {
     }
   }, [register, unregister, watchType]);
   const onSubmit = async (data: FormValues) => {
+    setIsSending(true);
     const url =
       "https://umzzcc503l.execute-api.us-west-2.amazonaws.com/dishes/";
     try {
       const response = await axios.post(url, {
         ...data,
       });
-
+      setIsSending(false);
       setSuccess(true);
       setResponseMsg(response.data);
       console.log("Response :", response.data);
     } catch (error) {
+      setIsSending(false);
       setError(true);
     }
 
@@ -82,7 +86,7 @@ const Form = () => {
 
   return (
     <>
-      {!isSubmitting && !error && !success && (
+      {!isSending && !error && !success && (
         <form
           onSubmit={handleSubmit(onSubmit)}
           noValidate
@@ -210,8 +214,7 @@ const Form = () => {
         </form>
       )}
 
-      {isSubmitting && <Spinner />}
-      {/* {isSending && <Spinner />} */}
+      {isSending && <Spinner />}
       {error && (
         <Message
           text="Opss Something went wrong! Please try again or contact your administrator."
