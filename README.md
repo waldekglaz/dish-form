@@ -2,6 +2,13 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### Built with
+
+- [React JS](https://react.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [React Hook Form](https://react-hook-form.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+
 ### Screenshot
 
 ![](./dish-delight-ss.png)
