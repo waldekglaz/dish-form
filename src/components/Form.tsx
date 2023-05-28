@@ -42,7 +42,6 @@ const Form = () => {
   };
   const form = useForm<FormValues>(defaultValues);
   const { register, handleSubmit, watch, unregister, reset, formState } = form;
-  console.log(formState);
   const watchType = watch("type");
   const { errors, isSubmitSuccessful } = formState;
   useEffect(() => {
@@ -65,7 +64,6 @@ const Form = () => {
     }
   }, [register, unregister, watchType]);
   const onSubmit = (data: FormValues) => {
-    console.log(data);
     setIsSending(true);
     const url =
       "https://umzzcc503l.execute-api.us-west-2.amazonaws.com/dishes/";
@@ -129,6 +127,7 @@ const Form = () => {
               htmlFor="type"
               label="Dish type:"
               register={register("type", { required: "Dish type is required" })}
+              dishes={dishTypes}
             />
             {errors.type?.message && (
               <ErrorMessage message={errors.type?.message} />
